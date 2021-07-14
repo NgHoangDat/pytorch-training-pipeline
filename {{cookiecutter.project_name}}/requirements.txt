@@ -1,3 +1,6 @@
+class-registry = "^2.1.2"
+class-registry>=2.1.2
 lescode>=0.2.11.3
 pydantic>=1.8.2
 pytorch-lightning=={{cookiecutter.pl_version}}
+typer>=0.3.2
