@@ -1,40 +1,30 @@
-from functools import wraps
+from functools import wraps, lru_cache
 from typing import *
 from typer import Typer
 
+__all__ = ["app", "Command"]
 
-__app = Typer()
+
+@lru_cache
+def get_mock_typer():
+    return Typer()
+
 
 class Command:
-
-    def __call__(self, *args, **kwargs) -> Any:
-        return self.func(*args, **kwargs)
+    call:Callable = lambda *args, **kwargs: None
 
 
-class App:
+class App(Typer):
     
-    def __init__(self, *args, **kwargs) -> None:
-        self.app = Typer(*args, **kwargs)
-
-    @wraps(__app.__call__)
-    def __call__(self, *args, **kwargs) -> Any:
-        return self.app(*args, **kwargs)
-
-    @wraps(__app.add_typer)
-    def add_typer(self, *args, **kwargs):
-        self.app.add_typer(*args, **kwargs)
-
-    @wraps(__app.callback)
-    def callback(self, *args, **kwargs) -> Any:
-        return self.app.callback(*args, **kwargs)
-
-    @wraps(__app.command)
+    @wraps(get_mock_typer().command)
     def command(self, *args, **kwargs):
+        base = super()
+
         def decorator(func:Callable):
+            base.command(*args, **kwargs)(func)
             cls = type("Command", (Command,), {
-                "__func": func
+                "call": func
             })
-            self.app.command(*args, **kwargs)(cls)
             return cls
 
         return decorator
