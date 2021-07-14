@@ -1,6 +1,11 @@
 .vscode
 env
 data
+build
+dist
 assets
 tests
 logs
+__pycache__
+*.ipynb
+*.egg-info
