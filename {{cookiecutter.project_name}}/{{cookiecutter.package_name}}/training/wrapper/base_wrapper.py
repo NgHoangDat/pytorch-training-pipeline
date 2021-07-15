@@ -1,9 +1,8 @@
 from typing import *
 
 import pytorch_lightning as pl
-from torch import nn
+from torch import nn, Tensor
 from torch.optim.optimizer import Optimizer
-from torch.tensor import Tensor
 
 
 class ModelWrapper(pl.LightningModule):
