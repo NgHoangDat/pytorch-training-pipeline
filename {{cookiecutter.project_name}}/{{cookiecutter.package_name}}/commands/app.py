@@ -13,6 +13,9 @@ def get_mock_typer():
 class Command:
     call:Callable = lambda *args, **kwargs: None
 
+    def __call__(self, *args, **kwargs) -> Any:
+        return self.call(*args, **kwargs)
+
 
 class App(Typer):
     
@@ -25,7 +28,7 @@ class App(Typer):
             cls = type("Command", (Command,), {
                 "call": func
             })
-            return cls
+            return cls()
 
         return decorator
 

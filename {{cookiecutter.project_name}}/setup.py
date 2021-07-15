@@ -9,6 +9,10 @@ with open('requirements.txt', 'r') as fh:
 __VERSION__ = "{{cookiecutter.version}}"
 __DESCRIPTION__ = "{{cookiecutter.description}}"
 
+entry_points = (
+    "{{cookiecutter.package_name}} = {{cookiecutter.package_name}}.__main__:main",
+)
+
 
 setuptools.setup(
     name="{{cookiecutter.package_name}}",
@@ -19,7 +23,9 @@ setuptools.setup(
     description=__DESCRIPTION__,
     long_description=long_description,
     long_description_content_type="text/markdown",
-        
+    entry_points={
+        "console_scripts": entry_points
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
