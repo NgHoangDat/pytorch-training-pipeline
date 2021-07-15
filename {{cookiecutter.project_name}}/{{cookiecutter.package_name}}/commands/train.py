@@ -87,7 +87,7 @@ def train(
         ) for cfg in config.early_stop_metrics
     ]
 
-    loss = LOSSES.get(config.loss.type, n_classes=model_cfg.get_num_classes(), **config.loss.params)
+    loss = LOSSES.get(config.loss.type, **config.loss.params)
     optimizer = OPTIMIZERS.get(config.optimizer.type, params=model.parameters(), **config.optimizer.params)
 
     checkpoint_path = model_dir.joinpath('last.ckpt')
