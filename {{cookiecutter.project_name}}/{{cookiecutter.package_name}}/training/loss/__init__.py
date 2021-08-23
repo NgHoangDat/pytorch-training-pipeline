@@ -3,7 +3,7 @@ from functools import lru_cache
 from lescode.export import export_subclass
 
 from .loss import Loss
-from .registry import LOSSES
+from .registry import loss_registry
 
 
 @lru_cache
@@ -12,7 +12,7 @@ def __init():
     export_subclass(Loss, registry=registry)
 
     for key, cls in registry.items():
-        LOSSES.register(key=key)(cls)
+        loss_registry.register(key=key)(cls)
 
     return True
 

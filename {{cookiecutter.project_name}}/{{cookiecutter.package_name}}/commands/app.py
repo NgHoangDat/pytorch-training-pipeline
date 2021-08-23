@@ -11,25 +11,23 @@ def get_mock_typer():
 
 
 class Command:
-    call:Callable = lambda *args, **kwargs: None
+    call: Callable = lambda *args, **kwargs: None
 
     def __call__(self, *args, **kwargs) -> Any:
         return self.call(*args, **kwargs)
 
 
 class App(Typer):
-    
     @wraps(get_mock_typer().command)
     def command(self, *args, **kwargs):
         base = super()
 
-        def decorator(func:Callable):
+        def decorator(func: Callable):
             base.command(*args, **kwargs)(func)
-            cls = type("Command", (Command,), {
-                "call": func
-            })
+            cls = type("Command", (Command,), {"call": func})
             return cls()
 
         return decorator
+
 
 app = App()

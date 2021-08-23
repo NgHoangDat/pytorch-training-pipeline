@@ -1,3 +1,3 @@
 from class_registry import ClassRegistry
 
-OPTIMIZERS = ClassRegistry(unique=True)
+optimizer_registry = ClassRegistry(unique=True)

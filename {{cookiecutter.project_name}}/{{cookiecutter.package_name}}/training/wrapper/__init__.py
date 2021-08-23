@@ -1,24 +1,24 @@
 from functools import lru_cache
 
+from class_registry import ClassRegistry
 from lescode.export import export_subclass
 
 from .base_wrapper import ModelWrapper
 
-__all__ = ['get_wrapper_cls', 'ModelWrapper']
+__all__ = ["wrapper_registry", "ModelWrapper"]
 
-
-@lru_cache
-def __get_wrapper_registry():
-    return {}
-
-
-def get_wrapper_cls(name:str):
-    return __get_wrapper_registry().get(name)
+wrapper_registry = ClassRegistry(unique=True)
 
 
 @lru_cache
 def __init():
-    export_subclass(ModelWrapper, registry=__get_wrapper_registry())
+    registry = {}
+    export_subclass(ModelWrapper, registry=registry)
+
+    for key, cls in registry.items():
+        wrapper_registry.register(key=key)(cls)
+
     return True
+
 
 assert __init(), "Failed to load wrapper"

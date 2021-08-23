@@ -4,7 +4,7 @@ from lescode.export import export_subclass
 from torch.utils.data import Dataset
 
 
-from .registry import DATASETS
+from .registry import dataset_registry
 
 
 @lru_cache
@@ -13,8 +13,9 @@ def __init():
     export_subclass(Dataset, registry=registry)
 
     for key, cls in registry.items():
-        DATASETS.register(key=key)(cls)
+        dataset_registry.register(key=key)(cls)
 
     return True
+
 
 assert __init(), "Failed to load Datasets"
