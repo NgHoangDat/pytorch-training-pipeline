@@ -13,9 +13,6 @@ from .app import app
 
 sys.path.append(Path(__file__).resolve().parent.parent.as_posix())
 
-from core import *
-from training import *
-
 
 def save_as_torch(model: Module, target_dir: Path, *args, **kwargs):
     torch.save(model.state_dict(), target_dir.joinpath("weight.pth").as_posix())
@@ -55,6 +52,9 @@ def export(
     version: str = Option("", help="Checkpoint version"),
 ):
 
+    from core import ModelConfig, Model, model_registry
+    from training import TrainingConfig, wrapper_registry
+
     checkpoint_dir = Path(checkpoint_dir).resolve()
 
     if format not in FORMATS:
@@ -79,7 +79,7 @@ def export(
     model_cfg: ModelConfig = model_cls.get_config_cls()(**config.model.params)
     base = model_cls(model_cfg)
 
-    wrapper = get_wrapper_cls(config.wrapper.type).load_from_checkpoint(
+    wrapper = wrapper_registry.get_class(config.wrapper.type).load_from_checkpoint(
         checkpoint_path=checkpoint_path,
         model=base,
         strict=False,
@@ -94,7 +94,7 @@ def export(
     with open(target_dir.joinpath("config.json"), "w") as f:
         cfg = model_cfg.dict()
         cfg["__type__"] = config.model.type
-        json.dump(cfg, f)
+        json.dump(cfg, f, indent=4, ensure_ascii=False)
 
     FORMATS[format](model, target_dir=target_dir, cfg=model_cfg, batch_size=batch_size)
 

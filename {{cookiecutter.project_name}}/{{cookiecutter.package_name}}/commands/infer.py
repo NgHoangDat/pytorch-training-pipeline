@@ -6,15 +6,11 @@ from typing import *
 
 import torch
 import torch.onnx
-from torch.nn import Module
 from typer import Argument, Option
 
 from .app import app
 
 sys.path.append(Path(__file__).resolve().parent.parent.as_posix())
-
-from core import *
-from training import *
 
 
 @app.command()
@@ -25,6 +21,8 @@ def infer(
     gpu: int = Option(-1, help="Gpu to use"),
 ):
     print(f"Infer {len(test_files)} files")
+
+    from core import Model, load_from_dir
 
     model: Model = load_from_dir(model_dir)
     model.eval()

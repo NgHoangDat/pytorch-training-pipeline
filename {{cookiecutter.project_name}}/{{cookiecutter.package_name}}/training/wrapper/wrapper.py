@@ -20,6 +20,10 @@ class ModelWrapper(pl.LightningModule):
         self.model = model
         self.loss = loss
         self.optimizer = optimizer
+        self.build(*args, **kwargs)
+
+    def build(self, *args, **kwargs):
+        pass
 
     def forward(self, *args, **kwargs) -> Any:
         return self.model.forward(*args, **kwargs)

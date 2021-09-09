@@ -3,7 +3,7 @@ from functools import lru_cache
 from class_registry import ClassRegistry
 from lescode.export import export_subclass
 
-from .base_wrapper import ModelWrapper
+from .wrapper import ModelWrapper
 
 __all__ = ["wrapper_registry", "ModelWrapper"]
 

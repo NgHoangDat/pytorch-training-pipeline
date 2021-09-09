@@ -1,7 +1,7 @@
-from torch import nn
+from torch.utils.data import Dataset as BaseDataset
 
 
-class Loss(nn.Module):
+class Dataset(BaseDataset):
     def __init__(self, *args, **kwargs):
         super().__init__()
         self.build(*args, **kwargs)

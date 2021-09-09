@@ -19,9 +19,6 @@ sys.path.append(op.abspath(op.join(__file__, op.pardir, op.pardir)))
 
 from .app import app
 
-from core import *
-from training import *
-
 warnings.filterwarnings("once")
 
 
@@ -31,6 +28,19 @@ def train(
     log_dir: str = Option("logs", help="Log directory"),
     config_path: str = Option("", help="Path to config file"),
 ):
+    from core import Model, ModelConfig, model_registry
+    from training import (
+        TrainingConfig,
+        Dataset,
+        Loss,
+        Optimizer,
+        ModelWrapper,
+        dataset_registry,
+        loss_registry,
+        optimizer_registry,
+        wrapper_registry,
+    )
+
     model_dir = Path(model_dir).resolve()
     model_dir.mkdir(parents=True, exist_ok=True)
 
@@ -49,11 +59,13 @@ def train(
     model_cfg: ModelConfig = model_cls.get_config_cls()(**config.model.params)
     model: Model = model_cls(model_cfg)
 
-    train_dataset = dataset_registry.get(
+    train_dataset: Dataset = dataset_registry.get(
         config.train_dataset.type, **config.train_dataset.params
     )
 
-    val_dataset = dataset_registry.get(config.val_dataset.type, **config.val_dataset.params)
+    val_dataset = dataset_registry.get(
+        config.val_dataset.type, **config.val_dataset.params
+    )
     train_dataloader = DataLoader(
         train_dataset,
         batch_size=config.batch_size,

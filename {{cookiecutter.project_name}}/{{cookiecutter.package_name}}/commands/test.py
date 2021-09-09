@@ -30,7 +30,7 @@ MAX_SUPPORTED_DISP_LABELS = 100
 @app.command()
 def test(
     checkpoint_dir: str = Argument(..., help="Checkpoint directory"),
-    test_files: List[str] =Argument(..., help="Test csv file"),
+    test_files: List[str] = Argument(..., help="Test csv file"),
     variant: str = Option("best_val_loss", help="Checkpoint variant"),
     latest: bool = Option(True, help="Only test latest version"),
     key_metric: str = Option(KEY_METRIC, help="Key metric to show"),
@@ -45,7 +45,7 @@ def test(
             print("-", fn)
 
     directory = Path(checkpoint_dir).resolve()
-        
+
     target_dir = ""
     if output_dir:
         target_dir = os.path.join(output_dir, directory.stem)

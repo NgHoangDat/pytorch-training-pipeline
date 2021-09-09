@@ -6,6 +6,9 @@ from .loss import Loss
 from .registry import loss_registry
 
 
+__all__ = ["loss_registry", "Loss"]
+
+
 @lru_cache
 def __init():
     registry = {}

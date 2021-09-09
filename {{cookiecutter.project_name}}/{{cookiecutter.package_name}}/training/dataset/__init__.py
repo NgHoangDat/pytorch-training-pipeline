@@ -1,10 +1,11 @@
 from functools import lru_cache
 
 from lescode.export import export_subclass
-from torch.utils.data import Dataset
 
-
+from .dataset import Dataset
 from .registry import dataset_registry
+
+__all__ = ["dataset_registry", "Dataset"]
 
 
 @lru_cache
